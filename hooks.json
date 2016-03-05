@@ -1,0 +1,34 @@
+[{
+		"image": "tf2stadium/helen",
+		"hook": "e32822d9-4a8a-433b-85d9-4354867deffe",
+		"tags": {
+			"latest": [
+				["docker-compose", "-f", "production.yml", "pull", "helen"],
+				["docker-compose", "-f", "production.yml", "stop", "helen"],
+				["docker-compose", "-f", "production.yml", "up", "-d", "helen"]
+			],
+			"dev": [
+				["docker-compose", "-f", "dev.yml", "pull", "helen"],
+				["docker-compose", "-f", "dev.yml", "stop", "helen"],
+				["docker-compose", "-f", "dev.yml", "up", "-d", "helen"]
+			]
+		}
+	},
+
+	{
+		"image": "tf2stadium/pauling",
+		"hook": "228aa11c-c781-4c72-a794-64eb1159889a",
+		"tags": {
+			"latest": [
+				["docker-compose", "-f", "production.yml", "pull", "pauling"],
+				["docker-compose", "-f", "production.yml", "stop", "pauling"],
+				["docker-compose", "-f", "production.yml", "up", "-d", "pauling"]
+			],
+			"dev": [
+				["docker-compose", "-f", "dev.yml", "pull", "pauling"],
+				["docker-compose", "-f", "dev.yml", "stop", "pauling"],
+				["docker-compose", "-f", "dev.yml", "up", "-d", "pauling"]
+			]
+		}
+	}
+]
