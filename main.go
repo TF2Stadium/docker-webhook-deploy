@@ -37,6 +37,7 @@ func execHook(image, tag string, commands [][]string) {
 		}
 
 		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 		if err := cmd.Run(); err != nil {
 			log.Printf("Error while executing hook for %s:%s: %v", image, tag, err)
 		}
