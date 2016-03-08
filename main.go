@@ -25,8 +25,10 @@ var (
 
 func execHook(image, tag string, commands [][]string) {
 	log.Printf("Executing hook for image %s:%s", image, tag)
+	log.Println(commands)
 
 	for _, command := range commands {
+		log.Println(command)
 		var cmd *exec.Cmd
 		if len(command) == 1 {
 			cmd = exec.Command(command[0])
@@ -123,7 +125,6 @@ func main() {
 
 		})
 	}
-
 	log.Println("Serving on", *addr)
 	log.Fatal(http.ListenAndServe(*addr, http.DefaultServeMux))
 }
