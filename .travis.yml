@@ -15,5 +15,6 @@ deploy:
     - "docker-webhook-windows-amd64.exe"
     - "docker-webhook-linux-386"
     - "docker-webhook-linux-amd64"
+  skip_cleanup: true
   on:
     repo: TF2Stadium/docker-webhook-deploy
