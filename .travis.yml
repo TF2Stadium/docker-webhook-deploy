@@ -14,7 +14,7 @@ deploy:
     secure: EggG/9SbqA+2tWlEG4FDkVmRuyDym9c1AzxNc5E8KOmrWDB4xkA7Pfr4vXyVUJq2TFb8mDBT8+wat6Mv19pGquQa7B9Dj2p3Se+nKyOBdY/m6we5bjxO+hXaj/7zn2BLb2yeVqkmq5LESIFq8wyx7SgLbkGt9Samdrliv8Q2ifbKr/wRhZm6QdAeH3imbfjFrfCO0F2ttggXF+egeZ51/UbL2zw1MdSaOMzOeHC1OJ2Cr7JBnRWkXxAAkMeJd1Fv2qohu9DWFzX1I6Fp9RvclzA8MVxQzRwMVxWa9jC7PQ6tEZu961skmyvgZtcIQ8Z0SJnIea1i4t00PQ6Jj3RI0FNMMz2Vf6KShdQBzcyTgE9A2jJKkX16swaJkhuV2+QEkrutFziDj55g5dt/fNnPoCG7XiqJBfi91SDnRRtdHVi+HyhbCpQZEr4St8d16DkNdMrcrjmpO9eF1KJLuS4dTaAxHJwiqOOqXDxMFssUgalLbZ6WjPyB9NYLVbstQhHh4P9sOVk4/xp7WMj2MNrSgG9RV8Me46avNlcAaWlHg8GcUitp1C32tMBXV+Dhjq5A/MHLqLb6YAs3nFVrL04KTJ4KW8iyqK/q4MnJ3Foxmct7edPtJS5ImYj1OiqqRvSwcHHABwkJkXXWLwYR2E6f75oLUoY1zebEium+U8yrCNk=
   skip_cleanup: true
   on:
-    repo: TF2Stadium/docker-webhook-deploy
+    tags: true
   file:
   - docker-webhook-windows-386.exe
   - docker-webhook-windows-amd64.exe
