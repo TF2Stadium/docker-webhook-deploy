@@ -17,4 +17,4 @@ deploy:
     - "docker-webhook-linux-amd64"
   skip_cleanup: true
   on:
-    repo: TF2Stadium/docker-webhook-deploy
+    tags: true
