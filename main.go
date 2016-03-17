@@ -25,10 +25,7 @@ var (
 
 func execHook(image, tag string, commands [][]string) {
 	log.Printf("Executing hook for image %s:%s", image, tag)
-	log.Println(commands)
-
 	for _, command := range commands {
-		log.Println(command)
 		var cmd *exec.Cmd
 		if len(command) == 1 {
 			cmd = exec.Command(command[0])
@@ -60,6 +57,48 @@ func getCommands(imageName, tagName string) [][]string {
 	return [][]string{}
 }
 
+func hookHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		return
+	}
+
+	var data struct {
+		PushData struct {
+			Tag string `json:"tag"`
+		} `json:"push_data"`
+
+		Repository struct {
+			Name      string `json:"name"`
+			Namespace string `json:"namespace"`
+		} `json:"repository"`
+	}
+
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if data.Repository.Namespace == "" {
+		http.Error(w, "missing details", http.StatusBadRequest)
+		return
+	}
+	if data.Repository.Name == "" {
+		http.Error(w, "missing details", http.StatusBadRequest)
+		return
+	}
+
+	image := data.Repository.Namespace + "/" + data.Repository.Name
+	tag := data.PushData.Tag
+	commands := getCommands(image, tag)
+	if len(commands) == 0 {
+		log.Printf("Couldn't find commands for %s:%s", image, tag)
+		return
+	}
+
+	execHook(image, tag, commands)
+}
+
 func main() {
 	flag.Parse()
 	if *conf == "" {
@@ -85,47 +124,9 @@ func main() {
 			log.Fatalf("No hook path mentioned for image %s", image.Image)
 		}
 
-		log.Println(image.Hook)
-		http.HandleFunc("/"+image.Hook, func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "POST" {
-				return
-			}
-
-			var data struct {
-				PushData struct {
-					Tag string `json:"tag"`
-				} `json:"push_data"`
-
-				Repository struct {
-					Name      string `json:"name"`
-					Namespace string `json:"namespace"`
-				} `json:"repository"`
-			}
-
-			err := json.NewDecoder(r.Body).Decode(&data)
-			if err != nil {
-				log.Println(err)
-				http.Error(w, err.Error(), http.StatusBadRequest)
-				return
-			}
-
-			if data.Repository.Namespace == "" || data.Repository.Name == "" {
-				http.Error(w, "missing details", http.StatusBadRequest)
-				return
-			}
-
-			image := data.Repository.Namespace + "/" + data.Repository.Name
-			tag := data.PushData.Tag
-			commands := getCommands(image, tag)
-			if len(commands) == 0 {
-				log.Printf("Couldn't find commands for %s:%s", image, tag)
-				return
-			}
-
-			execHook(image, tag, commands)
-
-		})
+		log.Printf("Registering /%s for %s", image.Hook, image.Image)
+		http.HandleFunc("/"+image.Hook, hookHandler)
 	}
 	log.Println("Serving on", *addr)
-	log.Fatal(http.ListenAndServe(*addr, http.DefaultServeMux))
+	log.Fatal(http.ListenAndServe(*addr, nil))
 }
