@@ -2,18 +2,21 @@ language: go
 go:
 - 1.6
 script:
-  - GOOS=windows GOARCH=386 go build -o docker-webhook-windows-386.exe
-  - GOOS=windows GOARCH=amd64 go build -o docker-webhook-windows-amd64.exe
-  - GOOS=linux GOARCH=386 go build -o docker-webhook-linux-386
-  - GOOS=linux GOARCH=amd64 go build -o docker-webhook-linux-amd64
+- GOOS=windows GOARCH=386 go build -o docker-webhook-windows-386.exe
+- GOOS=windows GOARCH=amd64 go build -o docker-webhook-windows-amd64.exe
+- GOOS=linux GOARCH=386 go build -o docker-webhook-linux-386
+- GOOS=linux GOARCH=amd64 go build -o docker-webhook-linux-amd64
 deploy:
   provider: releases
-  api_key:
-    secure: gFyhU/9DBfpSyG2YXUP6Up6YcYFkYsIyoawvc9XEiap0Dh4pH6jAPpBtt6DEQ9QNy9lNtesl1qcsbHhq/ez/unBEVib7+QcghrWfuGpr0tJB15b1qmmoSIvHRgyLCVGqnkjJT96U9zLxd6UOuSkXPDXMwgsYDMRwfkaeTdYRmJmaxno5k5694/38d0JMLSEFvoNjtSd1wLtuCNq+ZhG/ceKNnEqTzikqi1rWZrR+zIgLHSSnXpqJ2Oh7VOAEA3blrttGKyaaFUBYFVangbgMXhMvonpiUR2rQUxAOZhnSrbq0CsTmFbsemxpG3mX1Dhx3e7YeLkb0IEj//RyNqoOwQ7O6ZL7fEYzil/6vv6f7kOTszkotIm5VuBk9W6GsZB/j3TQ+MF/iBJhKflEzVo/4ASr+jkyEedyXNP1zXPFJl5H2uM3/mCusbe/tRFn6D8AYUvlNOCgzzNDqHELqfBhR9sOf7JIetFwyDEbHuWcisbLws6vO9mljEsFOBRKwx4t3zzNX3cRI3p+9O0Y4BYVtb5e4mlI+upCL3aLgiIbjvpXVhf4jx3jcQ3fR4M5V/aDIGI1hFvS7/COzv4tvhKRZ6IsE/LJ/ZB1uI4A4f+VtBRmyxHlL4n7gLydmWMy5FQe3/LJ4ye5psh8LGSmVjWCwuVto/xK0AblTidwhza66X4=
-  file:
-    - "docker-webhook-windows-386.exe"
-    - "docker-webhook-windows-amd64.exe"
-    - "docker-webhook-linux-386"
-    - "docker-webhook-linux-amd64"
+  user:
+    secure: LfHvk31hhrDscs2HKYfR3oOqFLmZ6bdscg+XSs51m5HlkygxgAU/q8zTlTxhjdNeLAZO2BmtTUL0Xnh2WUfPS3yb/6UHoRPIgsToh7V6HeguYJ0AQuwlMES0c2bOccNEcGqenp7whNCxNKsC5+j6D8iil7n7qqokqxYgq7EjR0rf+S8YiuLEjjyhUfRDJ7ad1K9yQl6clvr56zor3ZR1BJNyumqdMhwFOt2cvWgH4Qn1nCBeQHqdrguCQVBZjvSkJHhtRlQnEtdUhf4tdR3//dztFzhLCKJ+PuTVFY7ghEhcen4Z0ZiHsm8T1lTIWdAN8ACbGwO5kVbKm/exOazVz0fFE/OrsshbiYQB67LN22M3NALKoCm1mspF+MrmAFlaOEkbwNBcXx0zq+ptfxnGqcL3rrML+zm+6nidhZwZd4THVYSpHU68/UYTw6hNSB5orJp3eFm7aaCuHbWNuxqdcmJajW4fkA9pzgIG3m93Osq8IBz90vrSFsn3JI7jxSZDtxsXnG4C0sh1eGDOQv53RUd/pLzWNUDncnNDfOqffZm1ZihtdOh9hFUmmUea1PjRtoF8jHmiHznyQfznOCzo70UT1y9IACdG+XAfCSP3q5a5apuGFNNWXkSOobrJQx5atdsLbrwNBVki1yyLeGzxWL8UU9B4h4NaAMHOR+/wiyE=
+  password:
+    secure: EggG/9SbqA+2tWlEG4FDkVmRuyDym9c1AzxNc5E8KOmrWDB4xkA7Pfr4vXyVUJq2TFb8mDBT8+wat6Mv19pGquQa7B9Dj2p3Se+nKyOBdY/m6we5bjxO+hXaj/7zn2BLb2yeVqkmq5LESIFq8wyx7SgLbkGt9Samdrliv8Q2ifbKr/wRhZm6QdAeH3imbfjFrfCO0F2ttggXF+egeZ51/UbL2zw1MdSaOMzOeHC1OJ2Cr7JBnRWkXxAAkMeJd1Fv2qohu9DWFzX1I6Fp9RvclzA8MVxQzRwMVxWa9jC7PQ6tEZu961skmyvgZtcIQ8Z0SJnIea1i4t00PQ6Jj3RI0FNMMz2Vf6KShdQBzcyTgE9A2jJKkX16swaJkhuV2+QEkrutFziDj55g5dt/fNnPoCG7XiqJBfi91SDnRRtdHVi+HyhbCpQZEr4St8d16DkNdMrcrjmpO9eF1KJLuS4dTaAxHJwiqOOqXDxMFssUgalLbZ6WjPyB9NYLVbstQhHh4P9sOVk4/xp7WMj2MNrSgG9RV8Me46avNlcAaWlHg8GcUitp1C32tMBXV+Dhjq5A/MHLqLb6YAs3nFVrL04KTJ4KW8iyqK/q4MnJ3Foxmct7edPtJS5ImYj1OiqqRvSwcHHABwkJkXXWLwYR2E6f75oLUoY1zebEium+U8yrCNk=
+  skip_cleanup: true
   on:
     repo: TF2Stadium/docker-webhook-deploy
+  file:
+  - docker-webhook-windows-386.exe
+  - docker-webhook-windows-amd64.exe
+  - docker-webhook-linux-386
+  - docker-webhook-linux-amd64
