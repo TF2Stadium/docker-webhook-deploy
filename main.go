@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 type image struct {
@@ -18,9 +19,10 @@ type image struct {
 }
 
 var (
-	conf   = flag.String("conf", "", "configuration file to read from")
-	addr   = flag.String("http", ":8080", "http address to listen on")
-	images []image
+	conf    = flag.String("conf", "", "configuration file to read from")
+	addr    = flag.String("http", ":8080", "http address to listen on")
+	workdir = flag.String("workdir", ".", "work directory")
+	images  []image
 )
 
 func execHook(image, tag string, commands [][]string) {
@@ -106,6 +108,17 @@ func main() {
 		return
 	}
 
+	path, err := filepath.Abs(*workdir)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = os.Chdir(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Reading hooks from %s/%s", path, *conf)
 	bytes, err := ioutil.ReadFile(*conf)
 	if err != nil {
 		log.Fatal(err)
