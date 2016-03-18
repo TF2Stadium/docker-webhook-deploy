@@ -128,7 +128,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "ok")
 	})
 
@@ -138,8 +139,8 @@ func main() {
 		}
 
 		log.Printf("Registering /%s for %s", image.Hook, image.Image)
-		http.HandleFunc("/"+image.Hook, hookHandler)
+		mux.HandleFunc("/"+image.Hook, hookHandler)
 	}
 	log.Println("Serving on", *addr)
-	log.Fatal(http.ListenAndServe(*addr, nil))
+	log.Fatal(http.ListenAndServe(*addr, mux))
 }
